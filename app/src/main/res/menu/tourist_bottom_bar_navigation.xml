@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/feedT"
+        android:icon="@drawable/ic_feed"
+        android:title="Feed" />
+    <item
+        android:id="@+id/profileT"
+        android:icon="@drawable/ic_home"
+        android:title="Profile" />
+
+    <item
+        android:id="@+id/messagesT"
+        android:icon="@drawable/ic_message"
+        android:title="Messages" />
+
+    <item
+        android:id="@+id/followersT"
+        android:icon="@drawable/ic_favorite_tourist"
+        android:title="Favourite" />
+
+
+</menu>

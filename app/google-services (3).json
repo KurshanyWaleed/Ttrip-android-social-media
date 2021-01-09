@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "225307966481",
+    "project_id": "ttriptunisie",
+    "storage_bucket": "ttriptunisie.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:225307966481:android:10ae50f257e232464445b0",
+        "android_client_info": {
+          "package_name": "com.dmwm.tunitrip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "225307966481-4rj7vn36jfrphb7m4j0ka2h0fbca4nnm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdVLYH5P8-7mjXrw2yJsLySCFRbYk9y6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "225307966481-4rj7vn36jfrphb7m4j0ka2h0fbca4nnm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
