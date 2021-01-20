@@ -22,6 +22,12 @@ import com.dmwm.tunitrip.MainActivity;
 import com.dmwm.tunitrip.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 
 
 public class Followers_Tourist_Fragment extends Fragment {
@@ -78,15 +84,28 @@ FirebaseAuth firebaseAuth;
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_logout){
+        if (id == R.id.action_logout) {
+
+            Date currentTime = Calendar.getInstance().getTime();
+            String time=String.valueOf(currentTime);
+            checkOnLineStatus(time);
             firebaseAuth.signOut();
             checkUserStatus();
+        }
             if (id == R.id.add_post_action){
                 startActivity(new Intent(getActivity(), Add_Post_Activity.class));
             }
 
-        }
+
         return super.onOptionsItemSelected(item);
     }
-
+    private  void checkOnLineStatus(String status){
+        FirebaseUser user=firebaseAuth.getCurrentUser();
+        String myUid=user.getUid();
+        System.out.println(myUid+" my uiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiid we did itttttttttt ");
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("onlineStatus",status);
+        db.updateChildren(hashMap);
+    }
 }

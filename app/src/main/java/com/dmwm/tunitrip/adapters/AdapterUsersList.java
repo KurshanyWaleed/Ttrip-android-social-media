@@ -12,8 +12,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dmwm.tunitrip.Add_Post_Activity;
 import com.dmwm.tunitrip.Chat_Activity;
 import com.dmwm.tunitrip.R;
+import com.dmwm.tunitrip.VisitProfile;
 import com.dmwm.tunitrip.models.ModelUser;
 import com.squareup.picasso.Picasso;
 
@@ -33,6 +35,7 @@ public class AdapterUsersList extends RecyclerView.Adapter<AdapterUsersList.MyVi
     public  class MyViewHolder extends RecyclerView.ViewHolder{
 
         public ImageView imageView;
+        public ImageView imageViewCover;
         TextView textViewUsername;
         TextView textViewBio;
         TextView textViewRegion;
@@ -40,7 +43,7 @@ public class AdapterUsersList extends RecyclerView.Adapter<AdapterUsersList.MyVi
         public MyViewHolder(@NonNull final View itemView) {
             super(itemView);
 
-
+            imageViewCover=itemView.findViewById(R.id.imageViewCover);
             imageView=itemView.findViewById(R.id.imageViewUserRec);
             textViewUsername=itemView.findViewById(R.id.username);
             textViewBio=itemView.findViewById(R.id.textViewBioView);
@@ -59,6 +62,7 @@ public class AdapterUsersList extends RecyclerView.Adapter<AdapterUsersList.MyVi
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         String hisUid = arrayListUser.get(position).getUid();
         String photoProfile=arrayListUser.get(position).getPhotoProfile();
+        String photoCover=arrayListUser.get(position).getPhotoCover();
         String username=arrayListUser.get(position).getName();
         String bio=arrayListUser.get(position).getBio();
         String userRegion=arrayListUser.get(position).getRegion();
@@ -71,15 +75,26 @@ public class AdapterUsersList extends RecyclerView.Adapter<AdapterUsersList.MyVi
         }catch (Exception e){
             Picasso.get().load(R.drawable.userdefault).into(holder.imageView);
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(context, Chat_Activity.class);
-                i.putExtra("hisUid",hisUid);
-                context.startActivity(i);
 
-            }
-        });
+        try {
+            Picasso.get().load(photoCover).into(holder.imageViewCover);
+        }catch (Exception e){
+            Picasso.get().load(R.drawable.bgchat).into(holder.imageViewCover);
+        }
+
+       holder.itemView.setOnClickListener(new View.OnClickListener() {
+
+
+           @Override
+           public void onClick(View v) {
+               Intent i = new Intent(context, VisitProfile.class);
+               i.putExtra("hisUid",hisUid);
+               context.startActivity(i);
+
+           }
+       }) ;
+
+
     }
 
     @Override

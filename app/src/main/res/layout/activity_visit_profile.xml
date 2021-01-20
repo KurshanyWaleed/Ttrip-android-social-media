@@ -5,22 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg"
-    tools:context=".Tourist.Profile_Tourist_Fragment">
+    tools:context=".VisitProfile">
 
     <!-- TODO: Update blank fragment layout -->
 
 
 
     <ImageView
-        android:id="@+id/imageViewCoverT"
+        android:id="@+id/imageViewCoverVS"
         android:layout_width="match_parent"
+        android:layout_height="150dp"
         android:scaleType="centerCrop"
         android:cropToPadding="true"
-        android:layout_height="150dp"
-        android:src="@drawable/bgchat" />
+        android:src="@drawable/bgchat"
+        />
 
     <com.blogspot.atifsoftwares.circularimageview.CircularImageView
-        android:id="@+id/imageVProfileT"
+        android:id="@+id/imageVProfileVS"
         android:layout_width="143dp"
         android:layout_height="149dp"
         app:c_border_color="@color/yellow"
@@ -32,20 +33,32 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="235dp"
+        android:layout_marginTop="245dp"
         android:orientation="horizontal"
         >
 
         <TextView
-            android:id="@+id/textViewUserNameT"
+            android:id="@+id/textViewUserVS"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:text="UserName"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonSendMessageVS"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buttonSendMessageVS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="113dp"
+            android:backgroundTint="@color/yellow"
+            android:text="Contact"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -54,13 +67,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginTop="340dp"
+        android:layout_marginTop="350dp"
         android:orientation="horizontal"
         >
 
 
         <TextView
-            android:id="@+id/textViewHomeT"
+            android:id="@+id/textViewHomeVS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -72,7 +85,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textViewRegionT"
+            android:id="@+id/textViewRegionVS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -84,7 +97,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textViewPostNumberT"
+            android:id="@+id/textViewPostNumberVS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -96,7 +109,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textViewPhoneT"
+            android:id="@+id/textViewPhoneVS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="84dp"
@@ -110,7 +123,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/genderT"
+            android:id="@+id/genderVS"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="216dp"
@@ -123,12 +136,11 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_btn"
+        android:id="@+id/floating_btnlikeVS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/yellow"
+        android:src="@drawable/ic_baseline_thumb_up_24"
         android:layout_marginBottom="92dp"
-        android:src="@drawable/ic_settings"
         android:layout_marginRight="40dp"
         android:layout_gravity="bottom|right"
         ></com.google.android.material.floatingactionbutton.FloatingActionButton>
@@ -138,7 +150,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:paddingLeft="10dp"
-        android:hint="new Post"
+        android:hint="Post in his Profile "
         android:layout_marginTop="430dp"
         android:background="@drawable/edit_text_bg"
         android:ems="10"
@@ -158,19 +170,27 @@
         android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/edit_text_bg"
-        android:layout_marginTop="270dp">
+        android:layout_marginTop="300dp">
 
         <TextView
-            android:id="@+id/textViewBioT"
+            android:id="@+id/TextViewBioVS"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:inputType="textMultiLine"
+            android:paddingTop="15dp"
             android:text="bio"
-            android:textStyle="italic"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="-16dp"></TextView>
+            android:textStyle="italic"></TextView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/imageViewonline"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_horizontal"
+       android:layout_marginTop="185dp"
+        android:layout_marginLeft="50dp"
+        app:srcCompat="@drawable/ic_baseline_fiber_manual_record_24" />
 
 </FrameLayout>

@@ -30,6 +30,8 @@ import java.util.Locale;
 public class AdapterChat  extends RecyclerView.Adapter<AdapterChat.MyHolder>
 
 {
+    DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd' T 'HH:mm:ss", Locale.US);
+    DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd' T 'HH:mm:ss.SSSX", Locale.US);
     private static final int MSG_TYPE_LEFT=0;
     private static final int MSG_TYPE_WRIGHT=1;
     List<ModelChat> chatList;
@@ -60,23 +62,9 @@ public class AdapterChat  extends RecyclerView.Adapter<AdapterChat.MyHolder>
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        DateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd' T 'HH:mm:ss", Locale.US);
-        DateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd' T 'HH:mm:ss.SSSX", Locale.US);
+
         String message = chatList.get(position).getMessage();
         String time = chatList.get(position).getTime();
-        String seen= chatList.get(position).isSeen();
-
-
-       /* DateFormat dateFormat = new SimpleDateFormat("yyyy/mm/dd hh:mm:ss");
-        String strDate = (String) dateFormat.format(time);
-*/
-
-
-
-        // Note, MM is months, not mm
-
-
-       // String inputText = "2012-11-17T00:00:00.000-05:00";
         Date date = new Date();
         try {
             date = inputFormat.parse(time);
@@ -89,26 +77,14 @@ public class AdapterChat  extends RecyclerView.Adapter<AdapterChat.MyHolder>
 
 
         holder.messagesTV.setText(message);
-        holder.timeTV.setText(time+" - ");
+       holder.timeTV.setText(time);
 
         try{
             Picasso.get().load(imageUri).into(holder.imageViewChat);
         }catch (Exception e ){
-           // Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(context, "no image ! ", Toast.LENGTH_SHORT).show();
         }
-        System.out.println(seen +" AAAAseeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeen");
-        if (position==chatList.size()-1){
 
-            if (seen.equals("true")){
-                holder.isSeenTV.setText("seen");
-            }else {
-                holder.isSeenTV.setText("delivered");
-            }
-
-        }else {
-            holder.isSeenTV.setVisibility(View.GONE);
-
-        }
     }
 
     @Override
@@ -140,7 +116,6 @@ public class AdapterChat  extends RecyclerView.Adapter<AdapterChat.MyHolder>
             imageViewChat=itemView.findViewById(R.id.imageV);
             messagesTV=itemView.findViewById(R.id.textmessage);
             timeTV=itemView.findViewById(R.id.dateText);
-            isSeenTV=itemView.findViewById(R.id.datedelevred);
 
         }
     }

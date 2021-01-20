@@ -14,6 +14,12 @@ import com.dmwm.tunitrip.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 
 public class TouristMainActivity extends AppCompatActivity {
             FirebaseAuth firebaseAuth;
@@ -38,6 +44,7 @@ public class TouristMainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.containerT,new Feed_Tourist_Fragment()).commit();
         navigationView.setSelectedItemId(R.id.feedT);
 
+        checkOnLineStatus("online");
 
         /*Feed_Tourist_Fragment feed_tourist_fragment= new Feed_Tourist_Fragment();
         FragmentTransaction fragmentTransaction=getSupportFragmentManager().beginTransaction();
@@ -131,10 +138,7 @@ public class TouristMainActivity extends AppCompatActivity {
         }
 
     }
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+
 
     @Override
     protected void onStart() {
@@ -143,6 +147,24 @@ public class TouristMainActivity extends AppCompatActivity {
     }
 
 
+    private  void checkOnLineStatus(String status){
+        FirebaseUser user=firebaseAuth.getCurrentUser();
+        String myUid=user.getUid();
+        System.out.println(myUid+" my uiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiid we did itttttttttt form onCreat T main Acty ");
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("onlineStatus",status);
+        db.updateChildren(hashMap);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+    }
 }

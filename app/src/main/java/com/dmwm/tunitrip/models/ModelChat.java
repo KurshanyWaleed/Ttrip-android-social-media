@@ -49,10 +49,10 @@ public class ModelChat {
     }
 
     public String isSeen() {
-        return isSeen;
+        return this.isSeen;
     }
 
     public void setSeen(String seen) {
-        isSeen = seen;
+        this.isSeen = seen;
     }
 }

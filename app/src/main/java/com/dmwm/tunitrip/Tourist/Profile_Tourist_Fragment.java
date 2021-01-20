@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blogspot.atifsoftwares.circularimageview.CircularImageView;
 import com.dmwm.tunitrip.Add_Post_Activity;
 import com.dmwm.tunitrip.MainActivity;
 import com.dmwm.tunitrip.R;
@@ -49,14 +50,17 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 import static android.app.Activity.RESULT_OK;
 
 
 public class Profile_Tourist_Fragment extends Fragment {
-    TextView textViewName,textViewhome,textViewRegion,textViewbio,textViewphone,textViewfollowers;
-    ImageView imageprofile,imagecover;
+    TextView textViewName,textViewhome,textViewRegion,textViewbio,textViewphone,textViewfollowers,gender;
+    CircularImageView imageprofile;
+    ImageView imagecover;
     FloatingActionButton floatingActionButton;
     String StoregePath="User_Profile_Cover_image/";
     ProgressDialog progressDialog;
@@ -103,14 +107,14 @@ public class Profile_Tourist_Fragment extends Fragment {
         storageReference  = FirebaseStorage.getInstance().getReference();
 
         floatingActionButton=(FloatingActionButton)view.findViewById(R.id.floating_btn);
-        textViewbio=(TextView)view.findViewById(R.id.textViewbio);
+        textViewbio=(TextView)view.findViewById(R.id.textViewBioT);
         textViewName=(TextView)view.findViewById(R.id.textViewUserNameT);
-        textViewhome=(TextView)view.findViewById(R.id.textViewhome);
-        textViewRegion=(TextView)view.findViewById(R.id.textViewRegion);
-        textViewphone=(TextView)view.findViewById(R.id.textViewPhone);
-        textViewfollowers=(TextView)view.findViewById(R.id.textViewNumberfollowrs);
-        imagecover=(ImageView)view.findViewById(R.id.imageViewcover);
-        imageprofile=(ImageView)view.findViewById(R.id.imageViewProfile);
+        textViewhome=(TextView)view.findViewById(R.id.textViewHomeT);
+        textViewRegion=(TextView)view.findViewById(R.id.textViewRegionT);
+        textViewphone=(TextView)view.findViewById(R.id.textViewPhoneT);
+        textViewfollowers=(TextView)view.findViewById(R.id.textViewPostNumberT);
+        imagecover=(ImageView)view.findViewById(R.id.imageViewCoverT);
+        imageprofile=(CircularImageView) view.findViewById(R.id.imageVProfileT);
 
         cameraPermission = new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -151,8 +155,7 @@ public class Profile_Tourist_Fragment extends Fragment {
                     try {
                         Picasso.get().load(PhotoCover).into(imagecover);
                     }catch (Exception e){
-                        Picasso.get().load(R.drawable.edit_text_bg).into(imagecover);
-                        Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "no Cover Image", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -452,16 +455,47 @@ public class Profile_Tourist_Fragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_logout){
-            firebaseAuth.signOut();
-            checkUserStatus();
 
+            if
 
+            (id == R.id.action_logout){
+                Date currentTime = Calendar.getInstance().getTime();
+                String time=String.valueOf(currentTime);
+                checkOnLineStatus(time);
+                firebaseAuth.signOut();
+                checkUserStatus();
+            }
+            else if (id == R.id.add_post_action){
+                startActivity(new Intent(getActivity(), Add_Post_Activity.class));
+            }
+
+            return super.onOptionsItemSelected(item);
         }
+
+
         if (id == R.id.add_post_action){
             startActivity(new Intent(getActivity(), Add_Post_Activity.class));
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
+    private  void checkOnLineStatus(String status){
+        FirebaseUser user=firebaseAuth.getCurrentUser();
+        String myUid=user.getUid();
+        System.out.println(myUid+" my uiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiid we did itttttttttt ");
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("Users").child(myUid);
+        HashMap<String,Object> hashMap = new HashMap<>();
+        hashMap.put("onlineStatus",status);
+        db.updateChildren(hashMap);
+    }
+
+
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

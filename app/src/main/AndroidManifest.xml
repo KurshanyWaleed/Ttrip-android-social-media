@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ttrip">
-        <activity android:name=".Guide.GuideMainActivity"></activity>
+        <activity android:name=".VisitProfile"></activity>
+        <activity android:name=".Guide.GuideMainActivity" />
         <activity android:name=".ChosenUserTypeActivity" />
         <activity android:name=".Add_Post_Activity" />
         <activity

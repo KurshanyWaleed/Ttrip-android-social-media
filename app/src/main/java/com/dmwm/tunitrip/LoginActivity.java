@@ -111,8 +111,8 @@ public class LoginActivity extends AppCompatActivity {
             }
             else if (pass.length()<6)
             {
-                mEmail.setError("Invalid password Password length at least 6 characters ! ");
-                mEmail.setFocusable(true);
+                mPassword.setError("Invalid password Password length at least 6 characters ! ");
+                mPassword.setFocusable(true);
             }
             else {
                 LoginUser(Email,pass);
@@ -188,17 +188,17 @@ builder.create().show();
                         // Sign in success, update UI with the signed-in user's information
                         progressDialog.dismiss();
                         FirebaseUser user = firebaseAuth.getCurrentUser();
-                        Toast.makeText(getApplicationContext(), "Welcome ! ", Toast.LENGTH_SHORT).show();
+
                         DatabaseReference reference= FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
                         System.out.println(reference);
                         reference.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 String type = null;
-                                for (DataSnapshot ds : snapshot.getChildren()) {
+
                                     type = "" + snapshot.child("type").getValue();
                                     System.out.println(type + "TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTType");
-                                }
+
                                     if (type.equals("Tourist")) {
 
                                         startActivity(new Intent(getApplicationContext(), TouristMainActivity.class));

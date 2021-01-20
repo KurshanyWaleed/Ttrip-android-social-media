@@ -5,14 +5,13 @@ import android.net.Uri;
 public class ModelUser {
 
     String name,Region,bio,Uid,home,phone,email,type,gender,
-     photoProfile,
-            photoCover;
+     photoProfile,photoCover,typingTo,onlineStatus;
 
     public ModelUser() {
 
     }
 
-    public ModelUser(String name, String region, String bio, String uid, String home, String phone, String email,String type,String gender, String photoProfile, String photoCover) {
+    public ModelUser(String name, String region, String bio, String uid, String home, String phone, String email,String type,String gender, String photoProfile, String photoCover,String typingTo,String onlineStatus) {
         this.name = name;
         Region = region;
         this.bio = bio;
@@ -22,6 +21,22 @@ public class ModelUser {
         this.email = email;
         this.photoProfile = photoProfile;
         this.photoCover = photoCover;
+    }
+
+    public String getTypingTo() {
+        return typingTo;
+    }
+
+    public void setTypingTo(String typingTo) {
+        this.typingTo = typingTo;
+    }
+
+    public String getOnlineStatus() {
+        return onlineStatus;
+    }
+
+    public void setOnlineStatus(String onlineStatus) {
+        this.onlineStatus = onlineStatus;
     }
 
     public String getType() {

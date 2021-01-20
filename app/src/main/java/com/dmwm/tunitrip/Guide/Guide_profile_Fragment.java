@@ -14,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -29,9 +31,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blogspot.atifsoftwares.circularimageview.CircularImageView;
 import com.dmwm.tunitrip.Add_Post_Activity;
 import com.dmwm.tunitrip.MainActivity;
 import com.dmwm.tunitrip.R;
+import com.dmwm.tunitrip.adapters.AdapterPost;
+import com.dmwm.tunitrip.models.ModelPost;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -48,20 +53,30 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
 
 public class Guide_profile_Fragment extends Fragment {
 
-     EditText editTextNewPost;
-     TextView textViewName,textViewHome,textViewRegion,textViewBio,textViewPhone,textViewPosts,textViewGenderGuide;;
 
-    ImageView imageProfile,imageCover;
+     TextView editTextNewPost,textViewName,textViewHome,textViewRegion,textViewBio,textViewPhone,textViewPosts,textViewGenderGuide,mEmpty;;
+
+    CircularImageView imageProfile;
+    ImageView imageCover;
     FloatingActionButton floatingActionButton;
     String StoragePath="User_Profile_Cover_image/";
     ProgressDialog progressDialog;
+
+
+    RecyclerView recyclerView;
+    List<ModelPost> postList;
+    AdapterPost adapterPost;
+    String myUid;
+
 
 
 
@@ -102,6 +117,7 @@ public class Guide_profile_Fragment extends Fragment {
 
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseUser=firebaseAuth.getCurrentUser();
+        String myUid=firebaseAuth.getUid();
 
         firebaseDatabase=FirebaseDatabase.getInstance();
         databaseReference=firebaseDatabase.getReference("Users");
@@ -111,16 +127,22 @@ public class Guide_profile_Fragment extends Fragment {
 
 
 
-        floatingActionButton=(FloatingActionButton)view.findViewById(R.id.floating_btnGuide);
-        textViewGenderGuide=(TextView) view.findViewById(R.id.textViewGenderGuide);
-        textViewBio=(TextView)view.findViewById(R.id.TextViewBioGuide);
-        textViewName=(TextView)view.findViewById(R.id.textViewUserNameGuide);
-        textViewHome=(TextView)view.findViewById(R.id.textViewHomeGuide);
-        textViewRegion=(TextView)view.findViewById(R.id.textViewRegionGuide);
-        textViewPhone=(TextView)view.findViewById(R.id.textViewPhoneGuide);
-        textViewPosts=(TextView)view.findViewById(R.id.textViewPostNumberGuide);
+        floatingActionButton=(FloatingActionButton)view.findViewById(R.id.floating_btnG);
+        textViewGenderGuide=(TextView) view.findViewById(R.id.genderG);
+        editTextNewPost=(TextView) view.findViewById(R.id.editTextTextNewPostG);
+        textViewBio=(TextView)view.findViewById(R.id.TextViewBioG);
+        textViewName=(TextView)view.findViewById(R.id.textViewUserG);
+        textViewHome=(TextView)view.findViewById(R.id.textViewHomeG);
+        textViewRegion=(TextView)view.findViewById(R.id.textViewRegionG);
+        textViewPhone=(TextView)view.findViewById(R.id.textViewPhoneG);
+        textViewPosts=(TextView)view.findViewById(R.id.textViewPostNumberG);
         imageCover=(ImageView)view.findViewById(R.id.imageViewCoverGuide);
-        imageProfile=(ImageView)view.findViewById(R.id.imageVProfileGuide);
+        imageProfile=(CircularImageView) view.findViewById(R.id.imageVProfileG);
+        recyclerView=(RecyclerView)view.findViewById(R.id.RecyListPostesG);
+
+
+
+
 
         cameraPermission = new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE};
         storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -128,11 +150,19 @@ public class Guide_profile_Fragment extends Fragment {
         progressDialog=new ProgressDialog(getContext());
 
 
-        editTextNewPost=view.findViewById(R.id.editTextTextNewPostG);
+
 
 
         firebaseAuth=FirebaseAuth.getInstance();
+        FirebaseUser user=firebaseAuth.getCurrentUser();
+        myUid=user.getUid();
 
+        LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
+        layoutManager.setStackFromEnd(true);
+        layoutManager.setReverseLayout(true);
+        recyclerView.setLayoutManager(layoutManager);
+        postList=new ArrayList<>();
+        loadPosts();
 
         editTextNewPost.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,6 +216,59 @@ public class Guide_profile_Fragment extends Fragment {
 
         return view;
     }
+
+    private void loadPosts(){
+        FirebaseUser user1=firebaseAuth.getCurrentUser();
+        String myUid=user1.getUid();
+        DatabaseReference ref=FirebaseDatabase.getInstance().getReference().child("Posts");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange (@NonNull DataSnapshot dataSnapshot) {
+                System.out.println("ss");
+
+                System.out.println(dataSnapshot.getChildren() + "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                postList.clear();
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String myuidP=ds.child("uid").getValue().toString();
+                    if(myUid.equals(myuidP)){
+
+                        ModelPost modelPost = ds.getValue(ModelPost.class);
+                        postList.add(modelPost);
+                        adapterPost = new AdapterPost(postList, getActivity());
+                        recyclerView.setAdapter(adapterPost);
+                        adapterPost.notifyDataSetChanged();
+
+                    }else
+                        {
+                            editTextNewPost.setHint("No Post yet ! Tap here to add new post ! ");
+                    }
+
+
+
+
+                }
+            }
+            @Override
+            public void onCancelled (@NonNull DatabaseError error) {
+                Toast.makeText(getActivity(),""+error.getMessage(),Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
